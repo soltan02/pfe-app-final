@@ -1,0 +1,196 @@
+/* ── Big Data Analytics Theme ─────────────────────────── */
+/* PFE STB Security — Dark Data Dashboard                   */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+/* ── CSS Variables ─────────────────────────────────── */
+:root {
+  --bg-primary: #0a0e1a;
+  --bg-secondary: #0f1629;
+  --bg-card: #111827;
+  --bg-card-hover: #1a2332;
+  --bg-input: #0d1321;
+  --border-color: rgba(6, 182, 212, 0.12);
+  --border-hover: rgba(6, 182, 212, 0.3);
+  --text-primary: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --accent-primary: #06b6d4;
+  --accent-secondary: #0891b2;
+  --accent-gradient: linear-gradient(135deg, #06b6d4, #3b82f6);
+  --accent-gradient-vivid: linear-gradient(135deg, #22d3ee, #3b82f6, #8b5cf6);
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --purple: #8b5cf6;
+  --glow-primary: 0 0 20px rgba(6, 182, 212, 0.15);
+  --glow-card: 0 4px 24px rgba(0, 0, 0, 0.3), 0 0 40px rgba(6, 182, 212, 0.04);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+}
+
+/* ── Reset ─────────────────────────────────────────── */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 14px;
+  line-height: 1.6;
+  min-height: 100vh;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(6, 182, 212, 0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 100%, rgba(59, 130, 246, 0.04) 0%, transparent 50%);
+  background-attachment: fixed;
+}
+
+/* ── Navbar active link ─────────────────────────────── */
+nav a:hover {
+  background: rgba(6, 182, 212, 0.12) !important;
+  color: var(--accent-primary) !important;
+}
+nav a.active-link {
+  background: rgba(6, 182, 212, 0.15) !important;
+  color: var(--accent-primary) !important;
+  font-weight: 600 !important;
+  box-shadow: inset 3px 0 0 var(--accent-primary);
+}
+
+/* ── Tables ─────────────────────────────────────────── */
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  color: var(--text-primary);
+}
+
+thead tr { background: rgba(6, 182, 212, 0.06) !important; }
+
+thead th {
+  color: var(--accent-primary) !important;
+  font-weight: 700;
+  font-size: 11px;
+  padding: 14px 16px !important;
+  text-align: left;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+tbody tr {
+  border-bottom: 1px solid rgba(6, 182, 212, 0.06) !important;
+  transition: all 0.2s ease;
+}
+
+tbody tr:hover { background: rgba(6, 182, 212, 0.04) !important; }
+
+tbody td {
+  padding: 12px 16px !important;
+  font-size: 13px;
+  color: var(--text-primary);
+  border-bottom: 1px solid rgba(6, 182, 212, 0.04);
+}
+
+tbody tr:last-child { border-bottom: none !important; }
+
+/* ── Forms ──────────────────────────────────────────── */
+input, select, textarea {
+  border: 1px solid rgba(6, 182, 212, 0.15) !important;
+  border-radius: var(--radius-sm) !important;
+  padding: 10px 14px !important;
+  font-size: 14px !important;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.2s ease;
+  outline: none;
+  width: 100%;
+  background: var(--bg-input);
+  color: var(--text-primary);
+}
+
+input::placeholder, textarea::placeholder {
+  color: var(--text-muted);
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: var(--accent-primary) !important;
+  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1), 0 0 20px rgba(6, 182, 212, 0.05) !important;
+}
+
+select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2306b6d4' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px !important;
+}
+
+option {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+/* ── Scrollbar ──────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb { background: rgba(6, 182, 212, 0.2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(6, 182, 212, 0.4); }
+
+/* ── Utility Classes ────────────────────────────────── */
+.badge-cyan {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  background: rgba(6, 182, 212, 0.12);
+  color: #22d3ee;
+  border: 1px solid rgba(6, 182, 212, 0.2);
+}
+
+.badge-success {
+  background: rgba(16, 185, 129, 0.12);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.badge-warning {
+  background: rgba(245, 158, 11, 0.12);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.25);
+}
+
+.badge-danger {
+  background: rgba(239, 68, 68, 0.12);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+/* ── Animations ─────────────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(6, 182, 212, 0.15); }
+  50% { box-shadow: 0 0 20px 4px rgba(6, 182, 212, 0.08); }
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-in {
+  animation: fadeIn 0.4s ease-out both;
+}

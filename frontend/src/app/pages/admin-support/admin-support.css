@@ -1,0 +1,41 @@
+:host { display: block; }
+
+.support-page {
+  padding: 2rem;
+  min-height: calc(100vh - 56px);
+  color: #e2e8f0;
+}
+
+.page-header h1 { margin: 0; font-size: 1.5rem; font-weight: 800; color: #f1f5f9; }
+.page-header p { margin: 4px 0 0; color: #64748b; font-size: 0.85rem; }
+
+.loading { text-align: center; padding: 3rem; color: #64748b; }
+
+.empty { text-align: center; padding: 3rem; background: rgba(15,22,41,0.6); border: 1px solid rgba(6,182,212,0.1); border-radius: 12px; color: #64748b; }
+
+.requests-list { display: flex; flex-direction: column; gap: 0.75rem; }
+
+.request-card {
+  background: rgba(15,22,41,0.6);
+  border: 1px solid rgba(6,182,212,0.1);
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+
+.req-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
+.req-user { display: flex; align-items: center; gap: 8px; }
+.user-name { font-weight: 600; color: #e2e8f0; font-size: 0.9rem; }
+.user-role { font-size: 0.65rem; padding: 2px 8px; border-radius: 8px; font-weight: 600; }
+.user-role.admin { background: rgba(139,92,246,0.12); color: #a78bfa; }
+.user-role.chef_equipe { background: rgba(245,158,11,0.12); color: #fbbf24; }
+
+.req-date { font-size: 0.75rem; color: #64748b; }
+
+.req-body { margin-bottom: 0.75rem; }
+.req-body p { color: #94a3b8; font-size: 0.85rem; line-height: 1.5; }
+
+.req-footer { display: flex; gap: 8px; }
+
+.statut-badge { padding: 4px 10px; border-radius: 8px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; }
+.statut-badge.pending { background: rgba(245,158,11,0.12); color: #fbbf24; border: 1px solid rgba(245,158,11,0.2); }
+.statut-badge.approved { background: rgba(16,185,129,0.12); color: #34d399; border: 1px solid rgba(16,185,129,0.2); }

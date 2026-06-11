@@ -1,0 +1,141 @@
+<button type="button" class="sidebar-toggle" (click)="toggleMenu()" *ngIf="user" aria-label="Toggle menu">
+  <span></span>
+  <span></span>
+  <span></span>
+</button>
+
+<div class="sidebar-backdrop" *ngIf="user && menuOpen" (click)="closeMenu()"></div>
+
+<aside class="app-sidebar" [class.open]="menuOpen" *ngIf="user">
+
+  <a class="sidebar-brand" routerLink="/dashboard" (click)="closeMenu()">
+    <div class="brand-logo">
+      <img src="stb-logo.png" alt="STB">
+    </div>
+    <div class="brand-text">
+      <span class="brand-title">STB Security</span>
+      <span class="brand-subtitle">Agent Management</span>
+    </div>
+  </a>
+
+  <nav class="sidebar-nav">
+
+    <a routerLink="/dashboard" routerLinkActive="active" (click)="closeMenu()" class="nav-link">
+      <span class="icon">🏠</span>
+      <span class="label">Home</span>
+    </a>
+
+    <ng-container *ngIf="isAdmin()">
+      <div class="nav-section">Operations</div>
+      <a routerLink="/agents" routerLinkActive="active" (click)="closeMenu()" class="nav-link">
+        <span class="icon">👥</span>
+        <span class="label">Agents</span>
+      </a>
+      <a routerLink="/affectations" routerLinkActive="active" (click)="closeMenu()" class="nav-link">
+        <span class="icon">📋</span>
+        <span class="label">Assignments</span>
+      </a>
+      <a routerLink="/team-attendance" routerLinkActive="active" (click)="closeMenu()" class="nav-link">
+        <span class="icon">📈</span>
+        <span class="label">Att. Analytics</span>
+      </a>
+
+      <div class="nav-section">Oversight</div>
+      <a routerLink="/admin-analytics" routerLinkActive="active" (click)="closeMenu()" class="nav-link">
+        <span class="icon">📊</span>
+        <span class="label">Analytics</span>
+      </a>
+      <a routerLink="/rapports" routerLinkActive="active" (click)="closeMenu()" class="nav-link">
+        <span class="icon">📊</span>
+        <span class="label">Reports Overview</span>
+      </a>
+      <a routerLink="/admin-tickets" routerLinkActive="active" (click)="closeMenu()" class="nav-link">
+        <span class="icon">🎫</span>
+        <span class="label">Approval Queue</span>
+      </a>
+      <a routerLink="/admin-support" routerLinkActive="active" (click)="closeMenu()" class="nav-link">
+        <span class="icon">💬</span>
+        <span class="label">Support Inbox</span>
+      </a>
+      <a routerLink="/users" routerLinkActive="active" (click)="closeMenu()" class="nav-link">
+        <span class="icon">🔑</span>
+        <span class="label">Users</span>
+      </a>
+      <a routerLink="/map" routerLinkActive="active" (click)="closeMenu()" class="nav-link">
+        <span class="icon">🗺</span>
+        <span class="label">Manage Sites</span>
+      </a>
+    </ng-container>
+
+    <ng-container *ngIf="isChef()">
+      <div class="nav-section">Team Management</div>
+      <a routerLink="/team-management" routerLinkActive="active" (click)="closeMenu()" class="nav-link">
+        <span class="icon">👥</span>
+        <span class="label">My Team</span>
+      </a>
+      <a routerLink="/my-attendance" routerLinkActive="active" (click)="closeMenu()" class="nav-link">
+        <span class="icon">📅</span>
+        <span class="label">My Attendance</span>
+      </a>
+      <a routerLink="/pointage" routerLinkActive="active" (click)="closeMenu()" class="nav-link">
+        <span class="icon">📋</span>
+        <span class="label">Take Attendance</span>
+      </a>
+      <a routerLink="/team-attendance" routerLinkActive="active" (click)="closeMenu()" class="nav-link">
+        <span class="icon">📊</span>
+        <span class="label">Team Stats</span>
+      </a>
+      <a routerLink="/chef-tickets" routerLinkActive="active" (click)="closeMenu()" class="nav-link">
+        <span class="icon">🎫</span>
+        <span class="label">Team Tickets</span>
+      </a>
+      <a routerLink="/rapports" routerLinkActive="active" (click)="closeMenu()" class="nav-link">
+        <span class="icon">📝</span>
+        <span class="label">Reports</span>
+      </a>
+      <a routerLink="/agents" routerLinkActive="active" (click)="closeMenu()" class="nav-link">
+        <span class="icon">➕</span>
+        <span class="label">Add Agent</span>
+      </a>
+      <a routerLink="/contact-support" routerLinkActive="active" (click)="closeMenu()" class="nav-link">
+        <span class="icon">📞</span>
+        <span class="label">Contact Support</span>
+      </a>
+    </ng-container>
+
+    <ng-container *ngIf="isAgent()">
+      <div class="nav-section">My Space</div>
+      <a routerLink="/my-attendance" routerLinkActive="active" (click)="closeMenu()" class="nav-link">
+        <span class="icon">📅</span>
+        <span class="label">My Attendance</span>
+      </a>
+      <a routerLink="/mes-affectations" routerLinkActive="active" (click)="closeMenu()" class="nav-link">
+        <span class="icon">📋</span>
+        <span class="label">My Assignments</span>
+      </a>
+      <a routerLink="/tickets" routerLinkActive="active" (click)="closeMenu()" class="nav-link">
+        <span class="icon">🎫</span>
+        <span class="label">My Tickets</span>
+      </a>
+      <a routerLink="/contact-support" routerLinkActive="active" (click)="closeMenu()" class="nav-link">
+        <span class="icon">📞</span>
+        <span class="label">Contact Support</span>
+      </a>
+    </ng-container>
+  </nav>
+
+  <div class="sidebar-footer">
+    <a routerLink="/agent-profile" routerLinkActive="active" class="profile-link" title="My Profile">
+      <div class="avatar-wrapper">
+        <img [src]="getAvatarUrl()" alt="Avatar" class="nav-avatar" />
+      </div>
+      <div class="user-info">
+        <span class="user-name">{{ user.nom }}</span>
+        <span class="user-role" [class]="user.role">{{ getRoleLabel() }}</span>
+      </div>
+    </a>
+    <button class="logout-button" (click)="auth.logout(); closeMenu()" title="Logout">
+      <span class="icon">⏻</span>
+    </button>
+  </div>
+</aside>

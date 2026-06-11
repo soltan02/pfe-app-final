@@ -1,0 +1,104 @@
+<div class="login-page">
+  <!-- Animated background particles -->
+  <div class="bg-grid"></div>
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+
+  <!-- Top accent line -->
+  <div class="top-accent"></div>
+
+  <div class="login-container">
+    <!-- Left branding panel -->
+    <div class="brand-panel">
+      <div class="brand-content">
+        <div class="brand-icon">
+          <img src="stb-logo.png" alt="STB" style="height:48px; width:48px; object-fit:contain">
+        </div>
+        <h1 class="brand-title">STB Security</h1>
+        <p class="brand-subtitle">Système de Gestion de Sécurité</p>
+
+        <div class="brand-features">
+          <div class="feature-item">
+            <div class="feature-icon">📊</div>
+            <div>
+              <div class="feature-title">Big Data Analytics</div>
+              <div class="feature-desc">Real-time attendance insights & reports</div>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🛡️</div>
+            <div>
+              <div class="feature-title">Agent Management</div>
+              <div class="feature-desc">Secure multi-site security deployment</div>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">⚡</div>
+            <div>
+              <div class="feature-title">Smart Monitoring</div>
+              <div class="feature-desc">Automated incident tracking & alerts</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="brand-footer">
+          Powered by Apache Spark & PostgreSQL
+        </div>
+      </div>
+    </div>
+
+    <!-- Right login form -->
+    <div class="login-panel">
+      <div class="login-card">
+        <div class="card-accent"></div>
+
+        <div class="login-header">
+          <div class="login-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+              <polyline points="10 17 15 12 10 7"/>
+              <line x1="15" y1="12" x2="3" y2="12"/>
+            </svg>
+          </div>
+          <h2>Bienvenue</h2>
+          <p>Connectez-vous pour accéder au portail</p>
+        </div>
+
+        <form [formGroup]="form" (ngSubmit)="submit()">
+          <div class="form-group">
+            <label>Adresse Email</label>
+            <div class="input-wrapper">
+              <span class="input-icon">📧</span>
+              <input formControlName="email" type="email" placeholder="prenom.nom@stb.com.tn">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Mot de Passe</label>
+            <div class="input-wrapper">
+              <span class="input-icon">🔒</span>
+              <input formControlName="password" type="password" placeholder="••••••••">
+            </div>
+          </div>
+
+          <div class="error-msg" *ngIf="error">
+            <span class="error-icon">⚠</span>
+            {{ error }}
+          </div>
+
+          <button type="submit" [disabled]="loading" class="login-btn">
+            <span *ngIf="!loading">Se Connecter</span>
+            <span *ngIf="loading" class="btn-loading">
+              <span class="spinner"></span>
+              Connexion en cours…
+            </span>
+          </button>
+        </form>
+
+        <div class="login-footer">
+          <strong>Société Tunisienne de Banque</strong> — Tous droits réservés © 2026
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

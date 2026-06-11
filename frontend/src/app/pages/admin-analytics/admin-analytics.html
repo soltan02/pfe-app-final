@@ -1,0 +1,430 @@
+<div class="analytics-shell">
+  <div class="analytics-header">
+    <div class="back-button">
+      <button routerLink="/dashboard" class="btn-icon">← Back</button>
+    </div>
+    <div class="header-content">
+      <h1>Reports & Analytics</h1>
+      <p class="subtitle">Last updated: {{ analytics.lastUpdated | date: 'dd/MM/yyyy HH:mm' }}</p>
+    </div>
+  </div>
+
+  <!-- Key Metrics Cards -->
+  <section class="metrics-grid">
+    <div class="metric-card">
+      <div class="metric-icon">👤</div>
+      <div class="metric-label">Total Agents</div>
+      <div class="metric-value">{{ analytics.totalAgents }}</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-icon">📍</div>
+      <div class="metric-label">Sites</div>
+      <div class="metric-value">{{ analytics.totalSites }}</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-icon">📋</div>
+      <div class="metric-label">Total Assignments</div>
+      <div class="metric-value">{{ analytics.totalAffectations }}</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-icon">✅</div>
+      <div class="metric-label">Completed</div>
+      <div class="metric-value">{{ analytics.completedAffectations }}</div>
+    </div>
+  </section>
+
+  <!-- Report Summary Cards -->
+  <section class="metrics-grid" *ngIf="rapportStats.total_reports">
+    <div class="metric-card">
+      <div class="metric-icon">📊</div>
+      <div class="metric-label">Total Reports</div>
+      <div class="metric-value">{{ rapportStats.total_reports }}</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-icon">⏳</div>
+      <div class="metric-label">Pending Reports</div>
+      <div class="metric-value">{{ rapportStats.pending_reports }}</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-icon">✅</div>
+      <div class="metric-label">Approved Reports</div>
+      <div class="metric-value">{{ rapportStats.approved_reports }}</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-icon">⚠️</div>
+      <div class="metric-label">Incidents</div>
+      <div class="metric-value">{{ rapportStats.incidents }}</div>
+    </div>
+  </section>
+
+  <!-- Performance Indicators -->
+  <section class="performance-section">
+    <h2>Performance Indicators</h2>
+    <div class="indicators-grid">
+      <div class="indicator-card">
+        <h3>Completion Rate</h3>
+        <div class="progress-bar">
+          <div class="progress-fill" [style.width.%]="completionRate"></div>
+        </div>
+        <div class="progress-label">{{ completionRate }}%</div>
+      </div>
+      <div class="indicator-card">
+        <h3>Active Assignments</h3>
+        <div class="progress-bar">
+          <div class="progress-fill active" [style.width.%]="activeRate"></div>
+        </div>
+        <div class="progress-label">{{ activeRate }}%</div>
+      </div>
+      <div class="indicator-card">
+        <h3>System Uptime</h3>
+        <div class="progress-bar">
+          <div class="progress-fill success" [style.width.%]="99.9"></div>
+        </div>
+        <div class="progress-label">{{ analytics.systemUptime }}</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Detailed Analytics -->
+  <section class="analytics-detailed">
+    <h2>Detailed Analysis</h2>
+    
+    <div class="metric-tabs">
+      <button class="tab-btn" 
+              [class.active]="selectedMetric === 'overview'"
+              (click)="selectMetric('overview')">
+        Overview
+      </button>
+      <button class="tab-btn" 
+              [class.active]="selectedMetric === 'agents'"
+              (click)="selectMetric('agents')">
+        Agents
+      </button>
+      <button class="tab-btn" 
+              [class.active]="selectedMetric === 'sites'"
+              (click)="selectMetric('sites')">
+        Sites
+      </button>
+      <button class="tab-btn" 
+              [class.active]="selectedMetric === 'affectations'"
+              (click)="selectMetric('affectations')">
+        Assignments
+      </button>
+      <button class="tab-btn" 
+              [class.active]="selectedMetric === 'rapports'"
+              (click)="selectMetric('rapports')">
+        Reports
+      </button>
+    </div>
+
+    <div class="tab-content">
+      <!-- Overview Tab -->
+      <div *ngIf="selectedMetric === 'overview'" class="overview-content">
+        <div class="stat-grid">
+          <div class="stat-item">
+            <span class="label">Active Assignments</span>
+            <span class="value">{{ analytics.activeAffectations }}</span>
+          </div>
+          <div class="stat-item">
+            <span class="label">Completed Assignments</span>
+            <span class="value">{{ analytics.completedAffectations }}</span>
+          </div>
+          <div class="stat-item">
+            <span class="label">Average Duration (h)</span>
+            <span class="value">{{ analytics.averageAssignmentDuration }}</span>
+          </div>
+          <div class="stat-item">
+            <span class="label">Agents per Site</span>
+            <span class="value">{{ analytics.totalAgents > 0 ? (analytics.totalSites > 0 ? (analytics.totalAgents / analytics.totalSites).toFixed(1) : 0) : 0 }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Agents Tab -->
+      <div *ngIf="selectedMetric === 'agents'" class="tab-section">
+        <div class="section-info">
+          <p>Total number of agents: <strong>{{ analytics.totalAgents }}</strong></p>
+          <p>Active agents: <strong>{{ analytics.totalAgents }}</strong> (100%)</p>
+        </div>
+      </div>
+
+      <!-- Sites Tab -->
+      <div *ngIf="selectedMetric === 'sites'" class="tab-section">
+        <div class="section-info">
+          <p>Total number of sites: <strong>{{ analytics.totalSites }}</strong></p>
+          <p>Agents per site (average): <strong>{{ analytics.totalAgents > 0 && analytics.totalSites > 0 ? (analytics.totalAgents / analytics.totalSites).toFixed(1) : 0 }}</strong></p>
+        </div>
+      </div>
+
+      <!-- Assignments Tab -->
+      <div *ngIf="selectedMetric === 'affectations'" class="tab-section">
+        <div class="section-info">
+          <p>Total assignments: <strong>{{ analytics.totalAffectations }}</strong></p>
+          <p>Completion rate: <strong>{{ completionRate }}%</strong></p>
+          <p>Ongoing assignments: <strong>{{ analytics.activeAffectations }}</strong></p>
+        </div>
+      </div>
+
+      <!-- Reports Tab -->
+      <div *ngIf="selectedMetric === 'rapports'" class="tab-section">
+        <div class="section-info">
+          <p>Total reports: <strong>{{ rapportStats.total_reports || 0 }}</strong></p>
+          <p>Pending: <strong>{{ rapportStats.pending_reports || 0 }}</strong> | Approved: <strong>{{ rapportStats.approved_reports || 0 }}</strong></p>
+          <p>Incidents: <strong>{{ rapportStats.incidents || 0 }}</strong> | Absences: <strong>{{ rapportStats.absences || 0 }}</strong> | Health: <strong>{{ rapportStats.health_issues || 0 }}</strong> | Other: <strong>{{ rapportStats.other_reports || 0 }}</strong></p>
+        </div>
+
+        <!-- Reports per Chef -->
+        <div *ngIf="rapportPerChef.length > 0" style="margin-top: 16px;">
+          <h3>Reports per Chef</h3>
+          <table class="data-table">
+            <thead>
+              <tr><th>Chef Name</th><th>Report Count</th></tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let c of rapportPerChef">
+                <td>{{ c.chef_nom || 'Unknown' }}</td>
+                <td>{{ c.report_count }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Reports per Site -->
+        <div *ngIf="rapportPerSite.length > 0" style="margin-top: 16px;">
+          <h3>Reports per Site</h3>
+          <table class="data-table">
+            <thead>
+              <tr><th>Site Name</th><th>Report Count</th></tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let s of rapportPerSite">
+                <td>{{ s.site_nom || 'Unassigned' }}</td>
+                <td>{{ s.report_count }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- All Reports Table -->
+        <div *ngIf="rapportsData.length > 0" style="margin-top: 16px;">
+          <h3>All Reports</h3>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Agent</th>
+                <th>Site</th>
+                <th>Reported By</th>
+                <th>Chef Site</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let r of rapportsData">
+                <td>{{ r.id }}</td>
+                <td>{{ r.date | date: 'dd/MM/yyyy' }}</td>
+                <td>{{ typeLabel(r.type) }}</td>
+                <td>{{ r.agent_nom }}</td>
+                <td>{{ r.site_nom || '-' }}</td>
+                <td>{{ r.chef_nom || 'Unknown' }}</td>
+                <td>{{ r.chef_site_nom || '-' }}</td>
+                <td>
+                  <span class="status-pill" [style.background]="statusColor(r.statut)">
+                    {{ r.statut === 'pending' ? 'Pending' : r.statut === 'approved' ? 'Approved' : r.statut }}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- BIG DATA INSIGHTS                                            -->
+  <!-- ============================================================ -->
+  <section class="bigdata-section" *ngIf="!bdLoading || bdAttendanceTrend.length > 0">
+    <div class="bigdata-header">
+      <div>
+        <h2>Big Data Insights</h2>
+        <p class="subtitle">Aggregated from {{ bdSummary.total_presences | number }} attendance records across {{ bdSummary.total_sites }} branches</p>
+      </div>
+      <button class="generate-bd-btn" (click)="generateBigData()" [disabled]="bdGenerating">
+        {{ bdGenerating ? '⏳ Generating...' : '⚙️ Generate Big Data' }}
+      </button>
+    </div>
+    <div *ngIf="bdGenMessage" class="bd-gen-message">{{ bdGenMessage }}</div>
+
+    <!-- Summary KPI cards -->
+    <div class="metrics-grid" *ngIf="bdSummary.total_presences">
+      <div class="metric-card bigdata">
+        <div class="metric-icon">📊</div>
+        <div class="metric-label">Total Presences</div>
+        <div class="metric-value">{{ bdSummary.total_presences | number }}</div>
+      </div>
+      <div class="metric-card bigdata">
+        <div class="metric-icon">👤</div>
+        <div class="metric-label">Agents Tracked</div>
+        <div class="metric-value">{{ bdSummary.total_agents | number }}</div>
+      </div>
+      <div class="metric-card bigdata">
+        <div class="metric-icon">📈</div>
+        <div class="metric-label">Avg Attendance</div>
+        <div class="metric-value">{{ bdSummary.avg_attendance_rate }}%</div>
+      </div>
+      <div class="metric-card bigdata">
+        <div class="metric-icon">📝</div>
+        <div class="metric-label">Reports Filed</div>
+        <div class="metric-value">{{ bdSummary.total_rapports | number }}</div>
+      </div>
+    </div>
+
+    <!-- Attendance Trend (monthly) — Canvas chart -->
+    <div class="bd-panel" *ngIf="bdAttendanceTrend.length > 0">
+      <h3>📈 Monthly Attendance Trend</h3>
+      <div class="canvas-container">
+        <canvas #trendCanvas></canvas>
+      </div>
+      <div class="chart-note">Line chart with area fill. Y-axis auto-scales to the data range for maximum visibility.</div>
+    </div>
+
+    <!-- Absenteeism by Branch — Horizontal Bar Chart -->
+    <div class="bd-panel" *ngIf="bdAbsenteeism.length > 0">
+      <h3>📊 Absenteeism by Branch — Bar Chart</h3>
+      <div class="canvas-container">
+        <canvas #absenteeismBarCanvas></canvas>
+      </div>
+      <div class="chart-note">🔴 >5% absence rate  ·  🟡 3–5%  ·  🟢 <3%. Rounded bars with city labels.</div>
+    </div>
+
+    <!-- Agent Workload — Stacked Bar Chart -->
+    <div class="bd-panel" *ngIf="bdAgentWorkload.length > 0">
+      <h3>📋 Agent Attendance Breakdown — Lowest Rates</h3>
+      <div class="canvas-container">
+        <canvas #workloadBarCanvas></canvas>
+      </div>
+      <div class="chart-note">🟢 Present  ·  🔴 Absent  ·  🟡 Late. Stacked bars show proportional distribution.</div>
+    </div>
+
+    <!-- Incidents Monthly — Multi-line Chart -->
+    <div class="bd-panel" *ngIf="bdIncidents.length > 0">
+      <h3>🔥 Monthly Incidents by Type</h3>
+      <div class="canvas-container">
+        <canvas #incidentsCanvas></canvas>
+      </div>
+      <div class="chart-note">Multi-line chart tracking incidents, absences, health issues, and other reports over time.</div>
+    </div>
+
+    <!-- Absenteeism Forecast (linear regression) -->
+    <div class="bd-panel" *ngIf="bdForecast.length > 0">
+      <h3>Absenteeism Forecast — Linear Regression ({{ bdForecast.length }} branches)</h3>
+      <p class="subtitle">Using <code>REGR_SLOPE</code> / <code>REGR_INTERCEPT</code> on historical absence rates. Positive slope = rising absenteeism (🔴 alert).</p>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Branch</th><th>City</th><th>Months</th>
+            <th>Avg Absence %</th><th>Slope</th><th>Intercept</th><th>R²</th><th>Trend</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let f of bdForecast">
+            <td>{{ f.site_nom }}</td>
+            <td>{{ f.site_ville }}</td>
+            <td>{{ f.n_months }}</td>
+            <td>{{ f.avg_absence_rate }}%</td>
+            <td>{{ f.slope }}</td>
+            <td>{{ f.intercept }}</td>
+            <td>{{ f.r_squared }}</td>
+            <td><span class="forecast-trend">{{ forecastSlopeLabel(f.slope) }}</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Absenteeism by Branch -->
+    <div class="bd-panel" *ngIf="bdAbsenteeism.length > 0">
+      <h3>Absenteeism by Branch (last 12 months)</h3>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Branch</th><th>City</th><th>Records</th>
+            <th>Absences</th><th>Absence %</th><th>Tardiness %</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let b of bdAbsenteeism">
+            <td>{{ b.site_nom }}</td>
+            <td>{{ b.site_ville }}</td>
+            <td>{{ b.total_records | number }}</td>
+            <td>{{ b.total_absences | number }}</td>
+            <td><span class="status-pill" [style.background]="b.absence_rate > 5 ? '#ef4444' : '#10b981'">{{ b.absence_rate }}%</span></td>
+            <td><span class="status-pill" [style.background]="b.tardiness_rate > 7 ? '#fbbf24' : '#10b981'">{{ b.tardiness_rate }}%</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Agent Workload (bottom 10 by attendance) -->
+    <div class="bd-panel" *ngIf="bdAgentWorkload.length > 0">
+      <h3>Agents — Lowest Attendance Rate</h3>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Agent</th><th>ID</th><th>Status</th>
+            <th>Present</th><th>Absent</th><th>Late</th><th>Attendance</th><th>Reports</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let a of bdAgentWorkload">
+            <td>{{ a.agent_nom }} {{ a.agent_prenom }}</td>
+            <td>{{ a.matricule }}</td>
+            <td>{{ a.agent_status }}</td>
+            <td>{{ a.present_days }}</td>
+            <td>{{ a.absent_days }}</td>
+            <td>{{ a.late_days }}</td>
+            <td><span class="status-pill" [style.background]="a.attendance_rate < 80 ? '#ef4444' : a.attendance_rate < 85 ? '#fbbf24' : '#10b981'">{{ a.attendance_rate }}%</span></td>
+            <td>{{ a.total_reports }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Site Coverage -->
+    <div class="bd-panel" *ngIf="bdCoverage.length > 0">
+      <h3>Site Coverage Overview</h3>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Site</th><th>City</th><th>Total Agents</th>
+            <th>Current</th><th>Assignments</th><th>Reports</th><th>Incidents</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let c of bdCoverage">
+            <td>{{ c.site_nom }}</td>
+            <td>{{ c.site_ville }}</td>
+            <td>{{ c.total_agents_ever }}</td>
+            <td>{{ c.current_agents }}</td>
+            <td>{{ c.total_assignments }}</td>
+            <td>{{ c.total_reports }}</td>
+            <td><span class="status-pill" [style.background]="c.total_incidents > 50 ? '#ef4444' : c.total_incidents > 20 ? '#fbbf24' : '#10b981'">{{ c.total_incidents }}</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Export Options -->
+  <section class="export-section">
+    <h2>Export Full Admin Report</h2>
+    <div class="export-buttons">
+      <button class="export-btn" (click)="exportCSV()">📊 CSV (Reports Only)</button>
+      <button class="export-btn" (click)="exportFullCSV()">📋 Full CSV Report</button>
+      <button class="export-btn" (click)="exportExcel()">📈 Excel Report</button>
+      <button class="export-btn" (click)="exportPrint()">🖨️ Print / PDF</button>
+    </div>
+  </section>
+</div>

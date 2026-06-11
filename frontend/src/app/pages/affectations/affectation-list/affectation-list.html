@@ -1,0 +1,118 @@
+<div class="page-shell">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ isAgent() ? 'My Assignments' : 'Assignments' }}</h1>
+      <p class="page-subtitle">{{ affectations.length }} assignment(s)</p>
+    </div>
+    <button *ngIf="canCreate() && !showForm" class="btn-primary" (click)="openCreate()">
+      + New Assignment
+    </button>
+  </div>
+
+  <div *ngIf="isAgent()" class="info-banner">
+    📋 Read-only view. Contact your team leader for any modifications.
+  </div>
+
+  <div *ngIf="showForm" class="form-card">
+    <div class="form-header">
+      <h3 class="form-title">{{ editMode ? 'Edit Assignment' : 'New Assignment' }}</h3>
+      <button class="btn-ghost" (click)="cancelForm()" type="button">✕</button>
+    </div>
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div class="form-grid">
+        <div class="form-field">
+          <label>Agent *</label>
+          <select formControlName="agent_id">
+            <option value="">-- Choose an agent --</option>
+            <option *ngFor="let a of agents" [value]="a.id">
+              {{ a.prenom }} {{ a.nom }} ({{ a.matricule }})
+            </option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Site *</label>
+          <select formControlName="site_id">
+            <option value="">-- Choose a site --</option>
+            <option *ngFor="let s of sites" [value]="s.id">{{ s.nom }}</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Start Date *</label>
+          <input formControlName="date_debut" type="date" (change)="onDurationChange()">
+        </div>
+        <div class="form-field">
+          <label>Duration</label>
+          <select formControlName="duree" (change)="onDurationChange()">
+            <option value="">-- Custom --</option>
+            <option value="3">3 Months</option>
+            <option value="6">6 Months</option>
+            <option value="12">1 Year</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>End Date</label>
+          <input formControlName="date_fin" type="date">
+        </div>
+      </div>
+      <div *ngIf="error" class="form-error">{{ error }}</div>
+      <div class="form-actions">
+        <button type="submit" class="btn-primary">
+          {{ editMode ? 'Save Changes' : 'Create Assignment' }}
+        </button>
+        <button type="button" class="btn-ghost" (click)="cancelForm()">Cancel</button>
+      </div>
+    </form>
+  </div>
+
+  <div *ngIf="loading" class="loading">Loading...</div>
+
+  <div *ngIf="!loading && !showForm" class="search-bar-row">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="text" class="search-input" [(ngModel)]="searchQuery" placeholder="Search by agent, site...">
+      <button *ngIf="searchQuery" class="search-clear" (click)="searchQuery = ''">✕</button>
+    </div>
+    <span class="search-count">{{ filteredAffectations.length }} of {{ affectations.length }}</span>
+  </div>
+
+  <div *ngIf="!loading" class="table-card">
+    <table>
+      <thead>
+        <tr>
+          <th>Agent</th>
+          <th>Site</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Status</th>
+          <th *ngIf="canEdit() || canDelete()">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let af of filteredAffectations">
+          <td class="cell-strong">{{ af.agent_nom }}</td>
+          <td>{{ af.site_nom }}</td>
+          <td>{{ af.date_debut | date:'dd/MM/yyyy' }}</td>
+          <td>{{ af.date_fin ? (af.date_fin | date:'dd/MM/yyyy') : '-' }}</td>
+          <td>
+            <span class="status-pill"
+                  [class.status-active]="af.statut === 'active'"
+                  [class.status-inactive]="af.statut !== 'active'">
+              {{ af.statut }}
+            </span>
+          </td>
+          <td *ngIf="canEdit() || canDelete()">
+            <div class="row-actions">
+              <button *ngIf="canEdit()" class="btn-edit" (click)="openEdit(af)">Edit</button>
+              <button *ngIf="canDelete()" class="btn-delete" (click)="delete(af.id)">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr *ngIf="affectations.length === 0">
+          <td [attr.colspan]="(canEdit() || canDelete()) ? 6 : 5" class="empty-row">
+            No assignments found
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

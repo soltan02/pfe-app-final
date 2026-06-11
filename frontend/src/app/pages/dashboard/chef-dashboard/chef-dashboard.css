@@ -1,0 +1,242 @@
+/* ── Chef Dashboard — Big Data Analytics Theme ─────── */
+
+:host { display: block; }
+
+.dashboard-shell {
+  padding: 1.5rem;
+  min-height: calc(100vh - 56px);
+}
+
+.hero-card {
+  background: linear-gradient(135deg, rgba(15, 22, 41, 0.95) 0%, rgba(17, 24, 39, 0.95) 100%);
+  border: 1px solid rgba(6, 182, 212, 0.12);
+  border-radius: 20px;
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(6, 182, 212, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(6, 182, 212, 0.02) 1px, transparent 1px);
+  background-size: 30px 30px;
+  pointer-events: none;
+}
+
+.hero-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #f59e0b, #06b6d4);
+  border-radius: 20px 20px 0 0;
+}
+
+.hero-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-title h1 { margin: 0; font-size: 2rem; font-weight: 800; color: #f1f5f9; letter-spacing: -0.02em; }
+.hero-title p { margin: 0.5rem 0 0; color: #64748b; font-size: 0.85rem; }
+
+.hero-badge {
+  display: inline-flex;
+  padding: 4px 12px;
+  border-radius: 20px;
+  background: rgba(245, 158, 11, 0.12);
+  color: #fbbf24;
+  font-size: 0.7rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.hero-summary {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.summary-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.summary-value {
+  font-size: 2rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #f59e0b, #06b6d4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+}
+
+.summary-label {
+  font-size: 0.75rem;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.grid-layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.panel {
+  background: rgba(15, 22, 41, 0.8);
+  border: 1px solid rgba(6, 182, 212, 0.1);
+  border-radius: 16px;
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.panel:hover {
+  border-color: rgba(6, 182, 212, 0.18);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+}
+
+.panel::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(245, 158, 11, 0.3), transparent);
+}
+
+.panel-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.25rem; }
+.panel-subtitle { margin: 0; font-size: 0.7rem; color: #06b6d4; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 600; }
+.panel-header h2 { margin: 0.3rem 0 0; font-size: 1.2rem; color: #e2e8f0; font-weight: 700; }
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.stat-card {
+  padding: 1rem;
+  background: rgba(6, 182, 212, 0.04);
+  border: 1px solid rgba(6, 182, 212, 0.08);
+  border-radius: 12px;
+}
+
+.stat-label { color: #64748b; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.4rem; }
+.stat-value { font-size: 1.5rem; font-weight: 800; color: #06b6d4; }
+.stat-value.pending { color: #fbbf24; }
+
+.agents-list { display: flex; flex-direction: column; gap: 0.6rem; }
+
+.agent-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.85rem;
+  background: rgba(6, 182, 212, 0.03);
+  border: 1px solid rgba(6, 182, 212, 0.06);
+  border-radius: 10px;
+}
+
+.agent-info { display: flex; flex-direction: column; gap: 0.25rem; }
+.agent-info strong { color: #e2e8f0; font-size: 0.9rem; }
+.agent-role { color: #64748b; font-size: 0.75rem; }
+
+.agent-status {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #34d399;
+  font-size: 0.75rem;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #34d399;
+  animation: pulse-glow 2s infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.4); }
+  50% { box-shadow: 0 0 0 4px rgba(52, 211, 153, 0); }
+}
+
+.links-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+
+.link-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: rgba(6, 182, 212, 0.04);
+  border: 1px solid rgba(6, 182, 212, 0.08);
+  border-radius: 12px;
+  color: #e2e8f0;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.link-button:hover {
+  background: rgba(6, 182, 212, 0.08);
+  border-color: rgba(6, 182, 212, 0.2);
+  transform: translateY(-2px);
+}
+
+.link-button .icon { font-size: 1.3rem; }
+
+.action-row { display: flex; gap: 0.75rem; margin-top: 1.25rem; }
+
+.primary-button, .secondary-button {
+  flex: 1; padding: 0.7rem 1rem; border: none; border-radius: 10px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s ease; font-size: 0.85rem; text-align: center;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+
+.primary-button {
+  background: linear-gradient(135deg, #06b6d4, #0891b2);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(6, 182, 212, 0.2);
+}
+
+.primary-button:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(6, 182, 212, 0.3); }
+
+.secondary-button {
+  background: rgba(6, 182, 212, 0.08);
+  color: #22d3ee;
+  border: 1px solid rgba(6, 182, 212, 0.15);
+}
+
+.secondary-button:hover { background: rgba(6, 182, 212, 0.12); border-color: rgba(6, 182, 212, 0.25); }
+
+.loading-state, .empty-state { text-align: center; padding: 2rem 1rem; color: #64748b; font-size: 0.85rem; }
+
+@media (max-width: 768px) {
+  .dashboard-shell { padding: 1rem; }
+  .hero-header { flex-direction: column; }
+  .hero-summary { flex-direction: column; gap: 0.75rem; }
+  .stats-grid { grid-template-columns: 1fr; }
+}

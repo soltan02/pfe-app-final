@@ -1,0 +1,52 @@
+<div class="attendance-page">
+  <div class="page-header">
+    <h1>{{ user?.role === 'admin' ? 'Team Analytics' : 'Team Attendance' }}</h1>
+    <p>Year: {{ year }}</p>
+  </div>
+
+  <div class="agent-select">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="text" class="search-input"
+             [(ngModel)]="agentSearchQuery"
+             placeholder="Filter agents by name...">
+      <button *ngIf="agentSearchQuery" class="search-clear" (click)="agentSearchQuery = ''">✕</button>
+    </div>
+    <div class="filter-btns">
+      <button class="filter-btn" [class.active]="!selectedAgentId" (click)="selectAgent(null)">All Team</button>
+      <button *ngFor="let a of filteredAgents" class="filter-btn" [class.active]="selectedAgentId === a.id"
+        (click)="selectAgent(a.id)">{{ a.agent_nom }}</button>
+      <span *ngIf="filteredAgents.length === 0 && agentSearchQuery" class="no-results">No agents match</span>
+    </div>
+  </div>
+
+  <div class="totals-row">
+    <div class="total-card present">
+      <div class="total-val">{{ totals.present }}</div>
+      <div class="total-lbl">Total Present</div>
+    </div>
+    <div class="total-card absent">
+      <div class="total-val">{{ totals.absent }}</div>
+      <div class="total-lbl">Total Absent</div>
+    </div>
+    <div class="total-card tardy">
+      <div class="total-val">{{ totals.tardy }}</div>
+      <div class="total-lbl">Total Late</div>
+    </div>
+  </div>
+
+  <div class="chart-grid">
+    <div *ngFor="let m of months; let i = index" class="bar-col">
+      <div class="bar-label">{{ monthNames[i] }}</div>
+      <div class="bar-stack">
+        <div class="bar-seg present" [style.height.%]="m.total > 0 ? (m.present / m.total * 100) : 0"
+          title="Present: {{ m.present }}"></div>
+        <div class="bar-seg absent" [style.height.%]="m.total > 0 ? (m.absent / m.total * 100) : 0"
+          title="Absent: {{ m.absent }}"></div>
+        <div class="bar-seg tardy" [style.height.%]="m.total > 0 ? (m.tardy / m.total * 100) : 0"
+          title="Late: {{ m.tardy }}"></div>
+      </div>
+      <div class="bar-total">{{ m.total }}</div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,95 @@
+<div class="page-shell">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Security Agents</h1>
+      <p class="page-subtitle">{{ filteredAgents.length }} agent(s) shown</p>
+    </div>
+    <div class="header-actions">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" class="search-input"
+               [(ngModel)]="searchQuery"
+               placeholder="Search by name, ID, phone, site...">
+        <button *ngIf="searchQuery" class="search-clear" (click)="searchQuery = ''">✕</button>
+      </div>
+      <a routerLink="/agents/new" class="btn-primary">+ Add Agent</a>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="loading">Loading...</div>
+
+  <div *ngIf="error && !loading" class="error-banner">{{ error }}</div>
+
+  <div *ngIf="!loading && !error" class="table-card">
+    <table>
+      <thead>
+        <tr>
+          <th class="col-id">Matricule</th>
+          <th class="col-name">Full Name</th>
+          <th class="col-phone">Phone</th>
+          <th class="col-site">Site</th>
+          <th class="col-status">Status</th>
+          <th class="col-actions">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let a of filteredAgents">
+          <td class="cell-mono">{{ a.matricule }}</td>
+          <td class="cell-strong">{{ a.prenom }} {{ a.nom }}</td>
+          <td>{{ a.telephone || '—' }}</td>
+          <td>
+            <span class="site-tag" *ngIf="a.site_nom">{{ a.site_nom }}</span>
+            <span *ngIf="!a.site_nom" class="cell-muted">Unassigned</span>
+          </td>
+          <td>
+            <span class="status-pill"
+                  [class.status-active]="a.statut === 'actif'"
+                  [class.status-inactive]="a.statut !== 'actif'">
+              {{ a.statut }}
+            </span>
+          </td>
+          <td>
+            <div class="row-actions">
+              <a [routerLink]="['/agents/edit', a.id]" class="btn-edit">Edit</a>
+              <button class="btn-pwd" (click)="openPasswordModal(a.id)">🔑 PWD</button>
+              <button class="btn-delete" (click)="delete(a.id)">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr *ngIf="filteredAgents.length === 0">
+          <td colspan="6" class="empty-row">
+            {{ agents.length === 0 ? 'No agents in the system' : 'No agents match your search' }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Password Modal -->
+<div *ngIf="selectedAgentId !== null" class="modal-backdrop">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 class="modal-title">Change Password</h3>
+      <button class="modal-close" (click)="closeModal()">×</button>
+    </div>
+
+    <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
+      <div class="form-field">
+        <label>New Password</label>
+        <input formControlName="newPassword" type="password" placeholder="Minimum 4 characters">
+        <div class="field-error" *ngIf="passwordForm.get('newPassword')?.invalid && passwordForm.get('newPassword')?.touched">
+          ⚠ Minimum 4 characters required.
+        </div>
+      </div>
+
+      <div class="msg-success" *ngIf="pwdMessage">✓ {{ pwdMessage }}</div>
+      <div class="msg-error" *ngIf="pwdError">⚠ {{ pwdError }}</div>
+
+      <div class="modal-actions">
+        <button type="submit" class="btn-primary" style="flex:1">Confirm</button>
+        <button type="button" class="btn-ghost" style="flex:1" (click)="closeModal()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>

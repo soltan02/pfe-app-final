@@ -1,0 +1,48 @@
+<div class="attendance-page">
+  <div class="page-header">
+    <h1>My Attendance</h1>
+    <p>{{ monthLabel }}</p>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card present">
+      <div class="stat-val">{{ stats.present }}</div>
+      <div class="stat-lbl">Present</div>
+    </div>
+    <div class="stat-card absent">
+      <div class="stat-val">{{ stats.absent }}</div>
+      <div class="stat-lbl">Absent</div>
+    </div>
+    <div class="stat-card tardy">
+      <div class="stat-val">{{ stats.tardy }}</div>
+      <div class="stat-lbl">Late</div>
+    </div>
+  </div>
+
+  <div class="month-nav">
+    <button (click)="prevMonth()">◀</button>
+    <span>{{ monthLabel }}</span>
+    <button (click)="nextMonth()">▶</button>
+  </div>
+
+  <div class="calendar">
+    <div class="day-header">Sun</div>
+    <div class="day-header">Mon</div>
+    <div class="day-header">Tue</div>
+    <div class="day-header">Wed</div>
+    <div class="day-header">Thu</div>
+    <div class="day-header">Fri</div>
+    <div class="day-header">Sat</div>
+
+    <ng-container *ngFor="let d of days">
+      <div *ngIf="d; else emptyCell" class="day-cell"
+        [style.background]="d.status ? statusColor(d.status) : ''">
+        <span class="day-num">{{ d.day }}</span>
+        <span class="day-status">{{ statusLabel(d.status) }}</span>
+      </div>
+      <ng-template #emptyCell>
+        <div class="day-cell empty"></div>
+      </ng-template>
+    </ng-container>
+  </div>
+</div>
